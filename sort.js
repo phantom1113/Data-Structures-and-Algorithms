@@ -1,5 +1,6 @@
 function CArray(numElements) {
     this.dataStore = [];
+    this.gaps = [5,3,1];
     this.pos = 0;
     this.numElements = numElements;
     this.insert = insert;
@@ -9,6 +10,7 @@ function CArray(numElements) {
     this.swap = swap;
     this.bubleSort = bubleSort;
     this.selectionSort = selectionSort;
+    this.shellSort = shellSort;
     for( let i = 0; i < numElements; ++i){
         this.dataStore[i] = i;
     }
@@ -75,9 +77,22 @@ function selectionSort(){
     }
 }
 
+//Shell sort
+function shellSort() {
+    for (var g = 0; g < this.gaps.length; ++g) {
+        for (var i = this.gaps[g]; i < this.dataStore.length; ++i) {
+            var temp = this.dataStore[i];
+            for (var j = i; j >= this.gaps[g] && this.dataStore[j - this.gaps[g]] > temp; j -= this.gaps[g]) {
+                this.dataStore[j] = this.dataStore[j - this.gaps[g]];
+            }
+            this.dataStore[j] = temp;
+        }
+    }
+}
+
 var numElements = 10;
 var myNums = new CArray(numElements);
 myNums.setData();
 console.log(myNums.toString());
-myNums.selectionSort();
+myNums.shellSort();
 console.log(myNums.toString());
